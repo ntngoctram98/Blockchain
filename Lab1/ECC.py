@@ -1,4 +1,6 @@
 import os
+import timeit
+
 private_key = os.urandom(32).hex() #random number 32 byte to create private key
 print('\nPrivate Key: ', private_key)
 private_key=int(private_key, 16)
@@ -53,8 +55,10 @@ def ECC(G, private_key):
         if private_key[i] == '1': # Nếu chuỗi vị trí '1' gọi hàm phân biệt
             Q = QGdistinguish(Q,G)
         return (Q) 
-    
+
+begin=timeit.default_timer() 
 x, y = ECC(G, private_key)
+end=timeit.default_timer()
 uncompress = '04' + '{:064x}{:064x}'.format(x,y)
 print("\nUncompressed public key: ", uncompress) 
 
@@ -64,6 +68,6 @@ if y%2==1:
     compress='03'+'{0:x}'.format(x)
 
 print('\nCompressed public key: ', compress)
-
+print('\nTotal runtime of ECC: ', end-begin)
 
 
